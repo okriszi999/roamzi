@@ -1,0 +1,35 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "4433e584-625e-4b56-b898-23cf6e6a1f2d",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "trips": {
+      "name": "trips",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text(24)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
