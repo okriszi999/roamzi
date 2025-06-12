@@ -1,7 +1,7 @@
 "use client";
 import { useTrips } from "@/hooks/useTrips";
 import { useSession } from "next-auth/react";
-import { useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -30,10 +30,10 @@ export function TripsSidebar() {
   const [mounted, setMounted] = useState(false);
   const { data: trips, isLoading, error } = useTrips();
   const { data: session } = useSession();
-  const params = useParams();
-  const { state } = useSidebar();
 
-  const selectedTripId = params?.tripId;
+  const { state } = useSidebar();
+  const pathname = usePathname();
+
   const isCollapsed = state === "collapsed";
 
   useEffect(() => {
@@ -164,7 +164,7 @@ export function TripsSidebar() {
                 const userRole = trip.participants?.find(
                   (p) => p.userId === session?.user?.id
                 )?.role;
-                const isSelected = selectedTripId === trip.id;
+                const isSelected = pathname === `/trips/${trip.id}`;
 
                 if (isCollapsed) {
                   return (
@@ -176,7 +176,8 @@ export function TripsSidebar() {
                             isActive={isSelected}
                             className={cn(
                               "w-full justify-center p-3 m-auto",
-                              isSelected && "bg-accent"
+                              isSelected &&
+                                "bg-accent border shadow rounded-full"
                             )}
                           >
                             <Link href={`/trips/${trip.id}`}>

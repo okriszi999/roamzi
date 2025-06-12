@@ -19,6 +19,7 @@ export async function GET(
             user: true,
           },
         },
+        stops: true,
       },
       where: (trips, { eq }) => eq(trips.id, slug),
     });

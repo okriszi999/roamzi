@@ -1,5 +1,5 @@
 import { db } from ".";
-import { users as usersTable, trips, participants } from "./schema";
+import { users as usersTable, trips, participants, stops } from "./schema";
 import { createId } from "@paralleldrive/cuid2";
 import bcrypt from "bcryptjs";
 
@@ -173,6 +173,287 @@ async function seedTripParticipants() {
   }
 }
 
+async function seedTripStops() {
+  try {
+    const stopsData = [
+      // Montenegro trip stops 🇲🇪
+      {
+        id: createId(),
+        tripId: "trip_montenegro",
+        title: "Budapest, Hungary",
+        description: "Starting point - Departure from Budapest Airport",
+        lat: 47.4979,
+        lng: 19.0402,
+        order: 0,
+        type: "start" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_montenegro",
+        title: "Podgorica Airport",
+        description: "Landing in Montenegro - Pick up rental car",
+        lat: 42.3594,
+        lng: 19.2519,
+        order: 1,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_montenegro",
+        title: "Tivat, Montenegro",
+        description: "Accommodation base - Villa Sunset with sea views",
+        lat: 42.4304,
+        lng: 18.6969,
+        order: 2,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_montenegro",
+        title: "Kotor Old Town",
+        description: "Medieval fortress city - UNESCO World Heritage site",
+        lat: 42.4247,
+        lng: 18.7712,
+        order: 3,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_montenegro",
+        title: "Perast",
+        description: "Charming coastal town - Our Lady of the Rocks",
+        lat: 42.4866,
+        lng: 18.7006,
+        order: 4,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_montenegro",
+        title: "Budva Riviera",
+        description: "Beach day and nightlife - Party central!",
+        lat: 42.2864,
+        lng: 18.84,
+        order: 5,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_montenegro",
+        title: "Durmitor National Park",
+        description: "Mountain adventure - Tara River rafting",
+        lat: 43.1547,
+        lng: 19.0864,
+        order: 6,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_montenegro",
+        title: "Budapest, Hungary",
+        description: "Back home - End of epic adventure",
+        lat: 47.4979,
+        lng: 19.0402,
+        order: 7,
+        type: "end" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+
+      // Croatia trip stops 🇭🇷
+      {
+        id: createId(),
+        tripId: "trip_croatia",
+        title: "Budapest, Hungary",
+        description: "Starting point - Road trip begins!",
+        lat: 47.4979,
+        lng: 19.0402,
+        order: 0,
+        type: "start" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_croatia",
+        title: "Zagreb, Croatia",
+        description: "Capital city stop - Explore Upper Town",
+        lat: 45.815,
+        lng: 15.9819,
+        order: 1,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_croatia",
+        title: "Plitvice Lakes",
+        description: "National park with stunning waterfalls",
+        lat: 44.8654,
+        lng: 15.582,
+        order: 2,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_croatia",
+        title: "Split, Croatia",
+        description: "Diocletian's Palace and coastal vibes",
+        lat: 43.5081,
+        lng: 16.4402,
+        order: 3,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_croatia",
+        title: "Hvar Island",
+        description: "Lavender fields and beach clubs",
+        lat: 43.1729,
+        lng: 16.6413,
+        order: 4,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_croatia",
+        title: "Dubrovnik",
+        description: "Pearl of the Adriatic - Game of Thrones filming location",
+        lat: 42.6507,
+        lng: 18.0944,
+        order: 5,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_croatia",
+        title: "Budapest, Hungary",
+        description: "Home sweet home",
+        lat: 47.4979,
+        lng: 19.0402,
+        order: 6,
+        type: "end" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+
+      // Greece trip stops 🇬🇷
+      {
+        id: createId(),
+        tripId: "trip_greece",
+        title: "Budapest, Hungary",
+        description: "Flight departure to Athens",
+        lat: 47.4979,
+        lng: 19.0402,
+        order: 0,
+        type: "start" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_greece",
+        title: "Athens, Greece",
+        description: "Acropolis and ancient history",
+        lat: 37.9838,
+        lng: 23.7275,
+        order: 1,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_greece",
+        title: "Mykonos",
+        description: "Windmills and white houses - Party island!",
+        lat: 37.4467,
+        lng: 25.3289,
+        order: 2,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_greece",
+        title: "Santorini",
+        description: "Sunset cliffs and blue domes - Instagram paradise",
+        lat: 36.3932,
+        lng: 25.4615,
+        order: 3,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_greece",
+        title: "Naxos",
+        description: "Hidden gem - Less crowded, more authentic",
+        lat: 37.1036,
+        lng: 25.3766,
+        order: 4,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_greece",
+        title: "Athens, Greece",
+        description: "Final shopping and flight home",
+        lat: 37.9838,
+        lng: 23.7275,
+        order: 5,
+        type: "stop" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: createId(),
+        tripId: "trip_greece",
+        title: "Budapest, Hungary",
+        description: "Back to reality",
+        lat: 47.4979,
+        lng: 19.0402,
+        order: 6,
+        type: "end" as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    ];
+
+    await db.insert(stops).values(stopsData);
+    console.log("✅ Trip stops seeded successfully!");
+  } catch (error) {
+    console.error("Error seeding trip stops:", error);
+  }
+}
+
 async function seed() {
   console.log("🌱 Seeding database...");
 
@@ -183,12 +464,13 @@ async function seed() {
     await db.delete(usersTable);
     console.log("🧹 Cleared existing data");
   } catch (error) {
-    console.log("No existing data to clear");
+    throw new Error("Failed to clear existing data: " + error);
   }
 
   await seedUsers();
   await seedTrips();
   await seedTripParticipants();
+  await seedTripStops();
 
   console.log("🎉 All data seeded successfully!");
   console.log("📧 Your login: o.kriszi99@gmail.com");

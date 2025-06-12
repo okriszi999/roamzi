@@ -5,7 +5,9 @@ import * as authSchema from "./auth.schema";
 export const trips = tripSchema.trips;
 export const participants = tripSchema.participants;
 export const tripsRelations = tripSchema.tripsRelations;
-export const tripParticipantsRelations = tripSchema.tripParticipantsRelations;
+export const tripParticipantsRelations = tripSchema.participantsRelations;
+export const stops = tripSchema.stops;
+export const stopsRelations = tripSchema.stopsRelations;
 
 // Auth schema exports
 export const users = authSchema.users;

@@ -69,7 +69,7 @@ export const verificationTokens = sqliteTable(
 export const authenticators = sqliteTable(
   "authenticator",
   {
-    credentialID: text("credentialID").notNull().unique(),
+    credentialID: text("credentialID").notNull(), // 🔥 Remove .unique() here
     userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),

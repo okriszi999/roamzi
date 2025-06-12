@@ -1,4 +1,4 @@
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 import { users } from "./auth.schema";
@@ -39,16 +39,46 @@ export const participants = sqliteTable("trip_participants", {
     .notNull(),
 });
 
-// Define the relations
+export const stops = sqliteTable("trip_stops", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  lat: real("lat").notNull(),
+  lng: real("lng").notNull(),
+  tripId: text("trip_id")
+    .notNull()
+    .references(() => trips.id, { onDelete: "cascade" }),
+  createdAt: text("created_at")
+    .$defaultFn(() => new Date().toISOString())
+    .notNull(),
+  updatedAt: text("updated_at")
+    .$defaultFn(() => new Date().toISOString())
+    .notNull(),
+  order: int("order").notNull().default(0),
+  type: text("type", { enum: ["start", "stop", "end"] })
+    .notNull()
+    .default("stop"),
+});
+
+export const stopsRelations = relations(stops, ({ one }) => ({
+  trip: one(trips, {
+    fields: [stops.tripId],
+    references: [trips.id],
+  }),
+}));
+
 export const tripsRelations = relations(trips, ({ one, many }) => ({
   owner: one(users, {
     fields: [trips.ownerId],
     references: [users.id],
   }),
-  participants: many(participants),
+  participants: many(participants), // 🔥 Remove relationName
+  stops: many(stops), // 🔥 Remove relationName
 }));
 
-export const tripParticipantsRelations = relations(participants, ({ one }) => ({
+export const participantsRelations = relations(participants, ({ one }) => ({
   trip: one(trips, {
     fields: [participants.tripId],
     references: [trips.id],
@@ -68,6 +98,17 @@ export type TripWithParticipants = InferResultType<
         user: true;
       };
     };
+  }
+>;
+export type TripWithParticipantsAndStops = InferResultType<
+  "trips",
+  {
+    participants: {
+      with: {
+        user: true;
+      };
+    };
+    stops: true;
   }
 >;
 export type NewTrip = typeof trips.$inferInsert;

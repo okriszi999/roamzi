@@ -7,6 +7,7 @@ export default function Home() {
   const { data: trips, isLoading, error } = useTrips();
 
   const { data, status } = useSession();
+
   const user = data?.user;
 
   if (isLoading) {
