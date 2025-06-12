@@ -1,17 +1,19 @@
-import { db } from "@/db";
-import { trips } from "@/db/schema";
+import { db } from "@/server/db";
 
 export async function GET() {
   try {
-    const allTrips = await db.select().from(trips);
-    // Convert dates to strings for serialization
-    const serializedTrips = allTrips.map((trip) => ({
-      ...trip,
-      createdAt: trip.createdAt?.toString(),
-      updatedAt: trip.updatedAt?.toString(),
-    }));
+    const allTrips = await db.query.trips.findMany({
+      with: {
+        participants: {
+          with: {
+            user: true,
+          },
+        },
+      },
+    });
 
-    return Response.json(serializedTrips);
+    console.log(allTrips);
+    return Response.json(allTrips, { status: 200 });
   } catch (error) {
     return Response.json(error, { status: 500 });
   }

@@ -1,9 +1,13 @@
 "use client";
-import { Trip } from "@/db/schema";
-import { useTrip } from "@/hooks/useTrip";
+import { TripWithParticipants } from "@/server/db/schema/trip.schema";
+import { useTrips } from "@/hooks/useTrips";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const { data, isLoading, error } = useTrip();
+  const { data: trips, isLoading, error } = useTrips();
+
+  const { data, status } = useSession();
+  const user = data?.user;
 
   if (isLoading) {
     return (
@@ -22,20 +26,29 @@ export default function Home() {
   }
   return (
     <div className="">
-      {data?.map((trip) => (
+      {JSON.stringify(user)}
+      {status}
+
+      {trips?.map((trip) => (
         <TripCard key={trip.id} trip={trip} />
       ))}
     </div>
   );
 }
 
-export function TripCard({ trip }: { trip: Trip }) {
+export function TripCard({ trip }: { trip: TripWithParticipants }) {
   return (
     <div className="p-4 border rounded-lg">
       <h3 className="text-lg font-semibold">{trip.title}</h3>
       <p className="text-gray-600">{trip.description}</p>
       <div className="text-sm text-gray-500">
         {trip.startDate} - {trip.endDate}
+        <br></br>
+        {trip.participants.map((participant) => (
+          <div key={participant.id}>
+            {participant.user.name} ({participant.user.email})
+          </div>
+        ))}
       </div>
     </div>
   );
