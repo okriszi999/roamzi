@@ -35,18 +35,36 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TripWithParticipantsAndStops } from "@/server/db/schema/trip.schema";
 import { cn } from "@/lib/utils";
 import { useAtom } from "jotai";
 import { selectedStopIdAtom } from "@/lib/atoms/map.atoms";
-import { formattedRouteInfoAtom } from "@/lib/atoms/route.atoms";
+import { formattedRouteInfoAtom, routeInfoAtom } from "@/lib/atoms/route.atoms";
+import AddNewStopDialog from "@/components/dialogs/AddNewStopDialog";
 
 export default function Trip() {
   const { slug } = useParams() as { slug: string };
   const router = useRouter();
   const [isSharing, setIsSharing] = useState(false);
   const [routeInfo] = useAtom(formattedRouteInfoAtom);
+  const [, setRouteInfo] = useAtom(routeInfoAtom);
+
+  useEffect(() => {
+    setRouteInfo({
+      distance: 0,
+      duration: 0,
+      isLoading: true,
+    });
+
+    return () => {
+      setRouteInfo({
+        distance: 0,
+        duration: 0,
+        isLoading: false,
+      });
+    };
+  }, [slug, setRouteInfo]);
 
   const {
     data: trip,
@@ -283,16 +301,19 @@ export default function Trip() {
 
                 {/* Action buttons - responsive grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2">
+                  <AddNewStopDialog>
+                    <Button size="sm" variant="outline" className="w-full">
+                      <Plus className="w-4 h-4" />
+                      <span className="text-xs">Add Stop</span>
+                    </Button>
+                  </AddNewStopDialog>
+
                   <Button size="sm" variant="outline">
-                    <Plus className="w-4 h-4 mb-1" />
-                    <span className="text-xs">Add Stop</span>
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    <Users className="w-4 h-4 mb-1" />
+                    <Users className="w-4 h-4" />
                     <span className="text-xs">Invite</span>
                   </Button>
                   <Button size="sm" variant="outline">
-                    <Calendar className="w-4 h-4 mb-1" />
+                    <Calendar className="w-4 h-4" />
                     <span className="text-xs">Schedule</span>
                   </Button>
                 </div>

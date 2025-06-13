@@ -225,7 +225,7 @@ export function TripsSidebar() {
                         isSelected && "bg-accent"
                       )}
                     >
-                      <Link href={`/trips/${trip.id}`}>
+                      <Link href={`/trips/${trip.slug}`}>
                         <div className="flex-1 space-y-2">
                           {/* Trip title and role */}
                           <div className="flex items-start justify-between">

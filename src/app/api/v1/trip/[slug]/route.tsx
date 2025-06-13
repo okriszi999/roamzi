@@ -21,7 +21,7 @@ export async function GET(
         },
         stops: true,
       },
-      where: (trips, { eq }) => eq(trips.id, slug),
+      where: (trips, { eq }) => eq(trips.slug, slug),
     });
 
     console.log(trip);

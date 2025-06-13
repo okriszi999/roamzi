@@ -2,6 +2,12 @@ import { db } from ".";
 import { users as usersTable, trips, participants, stops } from "./schema";
 import { createId } from "@paralleldrive/cuid2";
 import bcrypt from "bcryptjs";
+import { Trip } from "./schema/trip.schema";
+import { createUniqueSlug } from "@/lib/utils";
+
+const montenegroTripId = createId();
+const croatiaTripId = createId();
+const greeceTripId = createId();
 
 async function seedUsers() {
   try {
@@ -59,8 +65,9 @@ async function seedTrips() {
   try {
     const tripData = [
       {
-        id: "trip_montenegro",
+        id: montenegroTripId,
         title: "Epic Montenegro Road Trip",
+        slug: createUniqueSlug("Epic Montenegro Road Trip"),
         description:
           "Coastal drive through Montenegro with the squad - beaches, mountains, and good vibes!",
         ownerId: "user_okriszi", // You're the owner
@@ -70,8 +77,9 @@ async function seedTrips() {
         updatedAt: new Date().toISOString(),
       },
       {
-        id: "trip_croatia",
+        id: croatiaTripId,
         title: "Croatian Coast Adventure",
+        slug: createUniqueSlug("Croatian Coast Adventure"),
         description:
           "Exploring Dubrovnik and the stunning Adriatic coastline with the crew.",
         ownerId: "user_okriszi", // You're the owner of this one too
@@ -81,8 +89,9 @@ async function seedTrips() {
         updatedAt: new Date().toISOString(),
       },
       {
-        id: "trip_greece",
+        id: greeceTripId,
         title: "Greek Island Hopping",
+        slug: createUniqueSlug("Greek Island Hopping"),
         description:
           "Island hopping through the Greek islands - Santorini, Mykonos, and more!",
         ownerId: "user_okriszi", // You own this one too
@@ -91,7 +100,7 @@ async function seedTrips() {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
-    ];
+    ] as Trip[];
 
     await db.insert(trips).values(tripData);
     console.log("✅ Trips seeded successfully!");
@@ -106,21 +115,21 @@ async function seedTripParticipants() {
       // Montenegro trip participants
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         userId: "user_okriszi",
         role: "owner" as const,
         joinedAt: new Date().toISOString(),
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         userId: "user_admin",
         role: "admin" as const,
         joinedAt: new Date().toISOString(),
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         userId: "user_companion1",
         role: "companion" as const,
         joinedAt: new Date().toISOString(),
@@ -129,21 +138,21 @@ async function seedTripParticipants() {
       // Croatia trip participants
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         userId: "user_okriszi",
         role: "owner" as const,
         joinedAt: new Date().toISOString(),
       },
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         userId: "user_companion1",
         role: "admin" as const,
         joinedAt: new Date().toISOString(),
       },
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         userId: "user_companion2",
         role: "companion" as const,
         joinedAt: new Date().toISOString(),
@@ -152,14 +161,14 @@ async function seedTripParticipants() {
       // Greece trip participants (smaller group)
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         userId: "user_okriszi",
         role: "owner" as const,
         joinedAt: new Date().toISOString(),
       },
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         userId: "user_companion2",
         role: "companion" as const,
         joinedAt: new Date().toISOString(),
@@ -179,7 +188,7 @@ async function seedTripStops() {
       // Montenegro trip stops 🇲🇪
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         title: "Budapest, Hungary",
         description: "Starting point - Departure from Budapest Airport",
         lat: 47.4979,
@@ -191,7 +200,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         title: "Podgorica Airport",
         description: "Landing in Montenegro - Pick up rental car",
         lat: 42.3594,
@@ -203,7 +212,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         title: "Tivat, Montenegro",
         description: "Accommodation base - Villa Sunset with sea views",
         lat: 42.4304,
@@ -215,7 +224,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         title: "Kotor Old Town",
         description: "Medieval fortress city - UNESCO World Heritage site",
         lat: 42.4247,
@@ -227,7 +236,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         title: "Perast",
         description: "Charming coastal town - Our Lady of the Rocks",
         lat: 42.4866,
@@ -239,7 +248,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         title: "Budva Riviera",
         description: "Beach day and nightlife - Party central!",
         lat: 42.2864,
@@ -251,7 +260,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         title: "Durmitor National Park",
         description: "Mountain adventure - Tara River rafting",
         lat: 43.1547,
@@ -263,7 +272,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_montenegro",
+        tripId: montenegroTripId,
         title: "Budapest, Hungary",
         description: "Back home - End of epic adventure",
         lat: 47.4979,
@@ -277,7 +286,7 @@ async function seedTripStops() {
       // Croatia trip stops 🇭🇷
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         title: "Budapest, Hungary",
         description: "Starting point - Road trip begins!",
         lat: 47.4979,
@@ -289,7 +298,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         title: "Zagreb, Croatia",
         description: "Capital city stop - Explore Upper Town",
         lat: 45.815,
@@ -301,7 +310,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         title: "Plitvice Lakes",
         description: "National park with stunning waterfalls",
         lat: 44.8654,
@@ -313,7 +322,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         title: "Split, Croatia",
         description: "Diocletian's Palace and coastal vibes",
         lat: 43.5081,
@@ -325,7 +334,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         title: "Hvar Island",
         description: "Lavender fields and beach clubs",
         lat: 43.1729,
@@ -337,7 +346,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         title: "Dubrovnik",
         description: "Pearl of the Adriatic - Game of Thrones filming location",
         lat: 42.6507,
@@ -349,7 +358,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_croatia",
+        tripId: croatiaTripId,
         title: "Budapest, Hungary",
         description: "Home sweet home",
         lat: 47.4979,
@@ -363,7 +372,7 @@ async function seedTripStops() {
       // Greece trip stops 🇬🇷
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         title: "Budapest, Hungary",
         description: "Flight departure to Athens",
         lat: 47.4979,
@@ -375,7 +384,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         title: "Athens, Greece",
         description: "Acropolis and ancient history",
         lat: 37.9838,
@@ -387,7 +396,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         title: "Mykonos",
         description: "Windmills and white houses - Party island!",
         lat: 37.4467,
@@ -399,7 +408,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         title: "Santorini",
         description: "Sunset cliffs and blue domes - Instagram paradise",
         lat: 36.3932,
@@ -411,7 +420,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         title: "Naxos",
         description: "Hidden gem - Less crowded, more authentic",
         lat: 37.1036,
@@ -423,7 +432,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         title: "Athens, Greece",
         description: "Final shopping and flight home",
         lat: 37.9838,
@@ -435,7 +444,7 @@ async function seedTripStops() {
       },
       {
         id: createId(),
-        tripId: "trip_greece",
+        tripId: greeceTripId,
         title: "Budapest, Hungary",
         description: "Back to reality",
         lat: 47.4979,

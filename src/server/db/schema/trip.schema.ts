@@ -9,6 +9,7 @@ export const trips = sqliteTable("trips", {
     .primaryKey()
     .$defaultFn(() => createId()),
   title: text("title").notNull(),
+  slug: text("slug").notNull(),
   description: text("description").notNull(),
   ownerId: text("owner_id")
     .notNull()
@@ -60,6 +61,32 @@ export const stops = sqliteTable("trip_stops", {
   type: text("type", { enum: ["start", "stop", "end"] })
     .notNull()
     .default("stop"),
+});
+
+export const location = sqliteTable("trip_locations", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  stopId: text("stop_id").notNull(),
+  name: text("name").notNull(),
+  lat: real("lat").notNull(),
+  lng: real("lng").notNull(),
+  country: text("country").notNull(),
+  countryCode: text("country_code").notNull(),
+  city: text("city").notNull(),
+  streetNumber: text("street_number").notNull(),
+  streetName: text("street_name").notNull(),
+  neighbourhood: text("neighbourhood").notNull(),
+  postcode: text("postcode").notNull(),
+  createdAt: text("created_at")
+    .$defaultFn(() => new Date().toISOString())
+    .notNull(),
+  updatedAt: text("updated_at")
+    .$defaultFn(() => new Date().toISOString())
+    .notNull(),
+  precision: text("precision", {
+    enum: ["house", "street", "area"],
+  }).notNull(),
 });
 
 export const stopsRelations = relations(stops, ({ one }) => ({
@@ -114,3 +141,5 @@ export type TripWithParticipantsAndStops = InferResultType<
 export type NewTrip = typeof trips.$inferInsert;
 export type TripParticipant = typeof participants.$inferSelect;
 export type NewTripParticipant = typeof participants.$inferInsert;
+export type TripStop = typeof stops.$inferSelect;
+export type NewTripStop = typeof stops.$inferInsert;

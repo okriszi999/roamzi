@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useTrips() {
   return useQuery<TripWithParticipants[]>({
-    queryKey: ["trip"],
+    queryKey: ["trips"],
     queryFn: async () => {
       const result = await fetch("/api/v1/trip");
 
